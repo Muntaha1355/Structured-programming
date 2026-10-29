@@ -1,116 +1,118 @@
 #include <stdio.h>
 
-struct organisation
+#define SIZE 5
+
+struct Company
 {
-    char name[50];
-    char location[100];
-    int totalEmployees;
+    char companyName[50];
+    char address[100];
+    int employeeCount;
 };
 
-struct employee
+struct Employee
 {
+    int employeeID;
+    char employeeName[50];
     int age;
     float salary;
-    int id;
-    char name[50];
-    char post[50];
-    char department[60];
+    char designation[50];
+    char department[50];
 };
 
 int main()
 {
-    struct organisation org;
-    struct employee emp[5];
-    int searchID, found = 0, choice;
+    struct Company company;
+    struct Employee staff[SIZE];
 
-    printf("Enter Company Name: ");
-    scanf(" %[^\n]", org.name);
+    int option, id, i, isFound;
 
-    printf("Enter Company Location: ");
-    scanf(" %[^\n]", org.location);
+    printf("Enter company name: ");
+    scanf(" %49[^\n]", company.companyName);
 
-    org.totalEmployees = 5;
+    printf("Enter company address: ");
+    scanf(" %99[^\n]", company.address);
 
-    for (int i = 0; i < 5; i++)
+    company.employeeCount = SIZE;
+
+    for (i = 0; i < SIZE; i++)
     {
-        printf("\nEnter details of Employee %d:\n", i + 1);
+        printf("\nEmployee %d Information\n", i + 1);
 
-        printf("ID: ");
-        scanf("%d", &emp[i].id);
+        printf("Enter ID: ");
+        scanf("%d", &staff[i].employeeID);
 
-        printf("Age: ");
-        scanf("%d", &emp[i].age);
+        printf("Enter name: ");
+        scanf(" %49[^\n]", staff[i].employeeName);
 
-        printf("Salary: ");
-        scanf("%f", &emp[i].salary);
+        printf("Enter age: ");
+        scanf("%d", &staff[i].age);
 
-        printf("Name: ");
-        scanf(" %[^\n]", emp[i].name);
+        printf("Enter salary: ");
+        scanf("%f", &staff[i].salary);
 
-        printf("Post: ");
-        scanf(" %[^\n]", emp[i].post);
+        printf("Enter designation: ");
+        scanf(" %49[^\n]", staff[i].designation);
 
-        printf("Department: ");
-        scanf(" %[^\n]", emp[i].department);
+        printf("Enter department: ");
+        scanf(" %49[^\n]", staff[i].department);
     }
 
     do
     {
-        printf("\n===== MENU =====\n");
-        printf("1. Search Employee by ID\n");
-        printf("2. Display Company Information\n");
-        printf("0. Exit\n");
+        printf("\n--- MAIN MENU ---\n");
+        printf("1. Find an employee\n");
+        printf("2. Show company details\n");
+        printf("0. Close program\n");
+        printf("Select an option: ");
+        scanf("%d", &option);
 
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
-
-        switch (choice)
+        if (option == 1)
         {
-            case 1:
-                printf("\nEnter Employee ID to search: ");
-                scanf("%d", &searchID);
+            printf("Enter employee ID: ");
+            scanf("%d", &id);
 
-                found = 0;
+            isFound = 0;
 
-                for (int i = 0; i < 5; i++)
+            for (i = 0; i < SIZE; i++)
+            {
+                if (staff[i].employeeID == id)
                 {
-                    if (searchID == emp[i].id)
-                    {
-                        printf("\nEmployee Found!\n");
-                        printf("ID: %d\n", emp[i].id);
-                        printf("Name: %s\n", emp[i].name);
-                        printf("Age: %d\n", emp[i].age);
-                        printf("Salary: %.2f\n", emp[i].salary);
-                        printf("Post: %s\n", emp[i].post);
-                        printf("Department: %s\n", emp[i].department);
+                    printf("\nEmployee Information\n");
+                    printf("ID: %d\n", staff[i].employeeID);
+                    printf("Name: %s\n", staff[i].employeeName);
+                    printf("Age: %d\n", staff[i].age);
+                    printf("Salary: %.2f\n", staff[i].salary);
+                    printf("Designation: %s\n", staff[i].designation);
+                    printf("Department: %s\n", staff[i].department);
 
-                        found = 1;
-                        break;
-                    }
+                    isFound = 1;
+                    break;
                 }
+            }
 
-                if (found == 0)
-                {
-                    printf("\nEmployee not found.\n");
-                }
-                break;
-
-            case 2:
-                printf("\n===== Company Information =====\n");
-                printf("Company Name: %s\n", org.name);
-                printf("Location: %s\n", org.location);
-                printf("Total Employees: %d\n", org.totalEmployees);
-                break;
-
-            case 0:
-                printf("Exiting the program.\n");
-                break;
-
-            default:
-                printf("Invalid choice!\n");
+            if (isFound == 0)
+            {
+                printf("No employee found with this ID.\n");
+            }
+        }
+        else if (option == 2)
+        {
+            printf("\nCompany Details\n");
+            printf("Name: %s\n", company.companyName);
+            printf("Address: %s\n", company.address);
+            printf("Number of employees: %d\n",
+                   company.employeeCount);
+        }
+        else if (option == 0)
+        {
+            printf("Program terminated.\n");
+        }
+        else
+        {
+            printf("Invalid option. Please try again.\n");
         }
 
-    } while (choice != 0);
+    } while (option != 0);
 
     return 0;
 }
